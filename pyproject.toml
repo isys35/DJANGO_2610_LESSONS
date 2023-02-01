@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "django-2610-lessons"
+version = "0.1.0"
+description = ""
+authors = ["Dzmitry"]
+readme = "README.md"
+packages = [{include = "django_2610_lessons"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.1.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
