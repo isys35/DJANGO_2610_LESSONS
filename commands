@@ -1,0 +1,21 @@
+# Создание проектаь, где classroom - название проекта
+django-admin startproject classroom
+
+# Запуск отладочного сервера
+python manage.py runserver
+
+# Создание приложение с именем homeworks
+python manage.py startapp homeworks
+
+# Создание файлов миграций
+python manage.py makemigrations <имя приложения: необязательно>
+
+# Показать запрос, который будет выполнен при миграции, где homeworks - название приложения,
+# 0001 - номер миграции
+python manage.py sqlmigrate homeworks 0001
+
+# Применение миграций
+python manage.py migrate <имя приложения: необязательно> <номер миграции: необязательно>
+
+# Откат всех миграций в приложении homeworks
+python manage.py migrate homeworks zero
