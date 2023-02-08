@@ -1,4 +1,5 @@
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 from homeworks.models import Homework
 from django.template import loader
@@ -16,10 +17,17 @@ from django.template import loader
 #     return HttpResponse(result)
 
 
+# def index(request: HttpRequest) -> HttpResponse:
+#     template = loader.get_template('homeworks/index.html')
+#     qs = Homework.objects.order_by("-created_at").all()
+#     context = {"homeworks": qs}
+#     return HttpResponse(template.render(context, request))
+
+
 def index(request: HttpRequest) -> HttpResponse:
-    template = loader.get_template('homeworks/index.html')
     qs = Homework.objects.order_by("-created_at").all()
-    context = {"homeworks": qs}
-    return HttpResponse(template.render(context, request))
+    return render(request, "homeworks/index.html", {"homeworks": qs})
+
+
 
 

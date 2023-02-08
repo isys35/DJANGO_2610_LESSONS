@@ -19,3 +19,7 @@ python manage.py migrate <имя приложения: необязательн�
 
 # Откат всех миграций в приложении homeworks
 python manage.py migrate homeworks zero
+
+
+# Создание суперпользователя
+python manage.py createsuperuser
