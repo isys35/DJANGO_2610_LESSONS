@@ -18,6 +18,7 @@
                   <th scope="col">Тема</th>
                   <th scope="col">Задание</th>
                   <th scope="col">Создано</th>
+                  <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,7 @@
                         <td>{{ homework.topic }}</td>
                         <td>{{ homework }}</td>
                         <td>{{ homework.created_at|date:"d.m.Y H:i:s" }}</td>
+                        <td><a href="{{ homework.get_absolute_url }}">Подробнее</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

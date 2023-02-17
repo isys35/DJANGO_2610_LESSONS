@@ -1,6 +1,5 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-
 from homeworks.models import Homework
 from django.template import loader
 
