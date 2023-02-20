@@ -53,7 +53,6 @@ class Homework(models.Model):
             super().save(force_update=True)
 
     def delete(self, *args, **kwargs):
-        # TODO: Сделать для фильтрации
         DeletedHomeworks.objects.create(
             name=self.name,
             description=self.description
