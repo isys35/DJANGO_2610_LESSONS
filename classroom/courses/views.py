@@ -10,9 +10,8 @@ def course_create(request):
     if request.method == "POST":
         form = forms.CourseForm(request.POST)
         if form.is_valid():
-            models.Course.objects.create(**form.cleaned_data)
+            form.save()
             return redirect("courses:list")
-        else:
-            return render(request, "courses/create.html", context={"form": form})
-    form = forms.CourseForm()
+    else:
+        form = forms.CourseForm()
     return render(request, "courses/create.html", context={"form": form})

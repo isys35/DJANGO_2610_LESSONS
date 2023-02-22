@@ -1,14 +1,34 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "style.css" %}">
     <title>{% block title %}Главная страница{% endblock %}</title>
 </head>
 <body>
     {% block sidebar %}
-        <a href="{% url "courses:list" %}">Курсы</a>
-        <a href="{% url "homeworks:list" %}">Задания</a>
+        <div class="sidebar">
+            <a href="{% url "index" %}" class="logo">
+                <img src="{% static "logo.svg" %}" alt="logo">
+            </a>
+            <ul class="menu">
+                <li class="menu__item">
+                    <a class="menu__link" href="{% url "courses:list" %}">
+                        <span class="material-symbols-outlined">library_books</span>
+                        <span>Курсы</span>
+                    </a>
+                </li>
+                <li class="menu__item">
+                    <a class="menu__link" href="{% url "homeworks:list" %}">
+                        <span class="material-symbols-outlined">edit_square</span>
+                        <span>Задания</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     {% endblock %}
     {% block content %}
         <h1>Добро пожаловать</h1>
