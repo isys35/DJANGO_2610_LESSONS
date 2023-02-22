@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "homeworks",
     "core",
     "directory",
+    "courses"
 ]
 
 MIDDLEWARE = [

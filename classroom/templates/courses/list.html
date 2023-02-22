@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Курсы{% endblock %}
+
+{% block content %}
+    <h1>Курсы</h1>
+    <a href="{% url "courses:create" %}">Создать курс</a>
+{% endblock %}

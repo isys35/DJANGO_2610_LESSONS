@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Создание курса{% endblock %}
+{% block content %}
+    <h1>Создание курса</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label for="name">Название курса</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="description">Описание курса</label>
+            <input type="text" id="description" name="description">
+        </div>
+        <div>
+            <label for="started_at">Старт курса</label>
+            <input type="date" id="started_at" name="started_at">
+        </div>
+        <div>
+            <button type="submit">Создать</button>
+        </div>
+    </form>
+{% endblock %}
