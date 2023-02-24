@@ -50,3 +50,148 @@ body {
 .menu__link span:first-child {
     margin-right: 10px;
 }
+
+.content {
+    padding: 32px 32px 32px calc(280px + 32px);
+}
+
+.content__wrapper {
+    background-color: white;
+    padding: 24px;
+    min-height: calc(100vh - 32px);
+    border-radius: 6px;
+}
+
+.course {
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.03),0 0 2px rgba(0,0,0,.06),0 2px 6px rgba(0,0,0,.12)!important;
+}
+
+.course .card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course .card-title__text span:first-child {
+    color: #1da750;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #caf1d8;
+    margin-right: 15px;
+}
+
+.card-title__text {
+    display: flex;
+    align-items: center;
+}
+
+.course .card-text {
+    min-height: 150px;
+}
+
+.course .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course .detail {
+    background: #22C55E;
+    border: 1px solid #22C55E;
+    border-radius: 32px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+.course .detail:first-child {
+    margin-right: 8px;
+}
+
+.course .detail:hover {
+    background: #16A34A;
+    color: #ffffff;
+    border-color: #16A34A;
+}
+
+.cards-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.add {
+    background: #22C55E;
+    border: 1px solid #22C55E;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+.add span:first-child {
+    margin-right: 8px;
+}
+
+.add:hover {
+    background: #16A34A;
+    color: #ffffff;
+    border-color: #16A34A;
+}
+
+
+.form-wrapper {
+    max-width: 400px;
+}
+
+.menu__link.selected {
+    color: #3b82f6;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.courses {
+    margin-bottom: 24px;
+}
+
+.page-item:not(:last-child) {
+    margin-right: 8px;
+}
+
+.page-item:first-child .page-link {
+    border-radius: 50%;
+    border: none;
+}
+
+.page-item:last-child .page-link {
+    border-radius: 50%;
+    border: none;
+}
+
+.page-link {
+    border-radius: 50%;
+    border: none;
+    color: #363636;
+}
+
+.page-link:hover {
+    color: #191919;
+}
+
+.page-item.active .page-link {
+    background-color: #5382c7;
+}
+
+
+
+@media (max-width: 1250px) {
+    .course .detail span:first-child {
+        display: none;
+    }
+}

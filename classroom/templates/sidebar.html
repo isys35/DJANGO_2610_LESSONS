@@ -1,0 +1,20 @@
+{% load static %}
+<div class="sidebar">
+    <a href="{% url "index" %}" class="logo">
+        <img src="{% static "logo.svg" %}" alt="logo">
+    </a>
+    <ul class="menu">
+        <li class="menu__item">
+            <a class="menu__link {% if app_name == 'courses' %}selected{% endif %}" href="{% url "courses:list" %}">
+                <span class="material-symbols-outlined">library_books</span>
+                <span>Курсы</span>
+            </a>
+        </li>
+        <li class="menu__item">
+            <a class="menu__link {% if app_name == 'homeworks' %}selected{% endif %}" href="{% url "homeworks:list" %}">
+                <span class="material-symbols-outlined">edit_square</span>
+                <span>Задания</span>
+            </a>
+        </li>
+    </ul>
+</div>

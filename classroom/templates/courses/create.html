@@ -1,12 +1,26 @@
 {% extends "base.html" %}
+{% load bootstrap5 %}
+{% block css %}{{ form.media.css }}{% endblock %}
 {% block title %}Создание курса{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='courses' %}
+{% endblock %}
 {% block content %}
     <h1>Создание курса</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="form-wrapper">
+            {% bootstrap_form form %}
+        </div>
         <div>
-            <button type="submit">Сохранить</button>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
         </div>
     </form>
+{% endblock %}
+{% block js %}
+    {{ form.media.js }}
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
+    <script>
+        flatpickr.localize(flatpickr.l10ns.ru)
+    </script>
 {% endblock %}

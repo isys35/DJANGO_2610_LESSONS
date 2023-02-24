@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Просмотр курса{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='courses' %}
+{% endblock %}
+{% block content %}
+    <h1>Просмотр курса</h1>
+    <p>Название курса: {{ course.name }}</p>
+    <p>Старт курса: {{ course.started_at }}</p>
+{% endblock %}

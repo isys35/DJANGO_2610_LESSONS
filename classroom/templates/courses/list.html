@@ -1,8 +1,54 @@
 {% extends "base.html" %}
-
+{% load bootstrap5 %}
 {% block title %}Курсы{% endblock %}
-
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='courses' %}
+{% endblock %}
 {% block content %}
-    <h1>Курсы</h1>
-    <a href="{% url "courses:create" %}">Создать курс</a>
+    <div class="cards-heading">
+        <h1>Курсы</h1>
+        <a href="{% url "courses:create" %}" class="btn add">
+            <span class="material-symbols-outlined">
+                add
+            </span>
+            <span>Добавить</span>
+        </a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 courses">
+    {% for course in courses %}
+      <div class="col">
+        <div class="card h-100 course">
+    {#      <img src="..." class="card-img-top" alt="...">#}
+          <div class="card-body">
+            <h5 class="card-title">
+                <div class="card-title__text">
+                    <span class="material-symbols-outlined">terminal</span>
+                    <span>{{ course.name }}</span>
+                </div>
+                <button class="btn card-title__btn"><span class="material-symbols-outlined">more_vert</span></button>
+            </h5>
+            <p class="card-text">{{ course.decription }}</p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">{{ course.started_at }}</small>
+            <a class="btn detail" href="{% url "courses:detail" course.pk %}" role="button">
+                <span>Подробнее</span>
+                <span class="material-symbols-outlined">
+                    arrow_forward
+                </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    {% bootstrap_pagination courses %}
+
+
+    <ul id="popover-content" class="list-group" style="display: none">
+      <a href="#" class="list-group-item">Edit Event</a>
+      <a href="#" class="list-group-item">Invite Members</a>
+      <a href="#" class="list-group-item">Delete Event</a>
+    </ul>
 {% endblock %}
