@@ -14,7 +14,13 @@
             <span>Добавить</span>
         </a>
     </div>
-
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <div class="row row-cols-1 row-cols-md-3 g-4 courses">
     {% for course in courses %}
       <div class="col">
@@ -26,9 +32,8 @@
                     <span class="material-symbols-outlined">terminal</span>
                     <span>{{ course.name }}</span>
                 </div>
-                <button class="btn card-title__btn"><span class="material-symbols-outlined">more_vert</span></button>
             </h5>
-            <p class="card-text">{{ course.decription }}</p>
+            <p class="card-text">{{ course.description }}</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{ course.started_at }}</small>
@@ -43,12 +48,6 @@
       </div>
     {% endfor %}
     </div>
-    {% bootstrap_pagination courses %}
+    {% bootstrap_pagination page_obj  %}
 
-
-    <ul id="popover-content" class="list-group" style="display: none">
-      <a href="#" class="list-group-item">Edit Event</a>
-      <a href="#" class="list-group-item">Invite Members</a>
-      <a href="#" class="list-group-item">Delete Event</a>
-    </ul>
 {% endblock %}

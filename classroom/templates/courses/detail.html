@@ -6,5 +6,31 @@
 {% block content %}
     <h1>Просмотр курса</h1>
     <p>Название курса: {{ course.name }}</p>
+    <p>Описание: {{ course.description }}</p>
     <p>Старт курса: {{ course.started_at }}</p>
+    <a class="btn btn-primary" href="{% url "courses:update" course.id %}">Редактировать</a>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Удалить
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Удаление записи</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Вы действительно хотите удалить запись?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <a type="button" class="btn btn-danger" href="{% url "courses:delete" course.id %}">Удалить</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
 {% endblock %}
