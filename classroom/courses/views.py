@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views import View
 
 from courses import forms
 from courses import models
@@ -16,16 +17,22 @@ def courses_list(request):
     return render(request, "courses/list.html", context=context)
 
 
-def course_create(request):
-    if request.method == "POST":
-        form = forms.CourseForm(request.POST)
+class CreateCourseView(View):
+    form_class = forms.CourseForm
+    template_name = "courses/create.html"
+
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, context={"form": form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Запись успешно создана")
             return redirect("courses:list")
-    else:
-        form = forms.CourseForm()
-    return render(request, "courses/create.html", context={"form": form})
+        return render(request, self.template_name, context={"form": form})
+
 
 
 def course_detail(request, id):
