@@ -4,9 +4,9 @@ from courses import views
 app_name = "courses"
 
 urlpatterns = [
-    path("", views.courses_list, name="list"),
+    path("", views.CoursesListView.as_view(), name="list"),
     path("create/", views.CreateCourseView.as_view(), name="create"),
-    path("<int:id>/", views.course_detail, name="detail"),
-    path("<int:id>/update/", views.course_update, name="update"),
-    path("<int:id>/delete/", views.course_delete, name="delete")
+    path("<int:pk>/", views.DetailCourseView.as_view(), name="detail"),
+    path("<int:pk>/update/", views.UpdateCourseView.as_view(), name="update"),
+    path("<int:pk>/delete/", views.DeleteCourseView.as_view(), name="delete")
 ]
