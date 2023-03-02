@@ -5,6 +5,18 @@
     </a>
     <ul class="menu">
         <li class="menu__item">
+            <a class="menu__link {% if app_name == 'users' %}selected{% endif %}" href="{% url "users:list" %}">
+                <span class="material-symbols-outlined">person</span>
+                <span>Пользователи</span>
+            </a>
+        </li>
+        <li class="menu__item">
+            <a class="menu__link {% if app_name == 'groups' %}selected{% endif %}" href="{% url "users:group_list" %}">
+                <span class="material-symbols-outlined">group</span>
+                <span>Группы</span>
+            </a>
+        </li>
+        <li class="menu__item">
             <a class="menu__link {% if app_name == 'courses' %}selected{% endif %}" href="{% url "courses:list" %}">
                 <span class="material-symbols-outlined">library_books</span>
                 <span>Курсы</span>

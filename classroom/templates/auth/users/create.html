@@ -1,27 +1,22 @@
 {% extends "base.html" %}
 {% load bootstrap5 %}
 {% block css %}{{ form.media.css }}{% endblock %}
-{% block title %}Редактирование курса{% endblock %}
+{% block title %}Создание пользователя{% endblock %}
 {% block sidebar %}
-    {% include 'sidebar.html' with app_name='courses' %}
+    {% include 'sidebar.html' with app_name='users' %}
 {% endblock %}
 {% block content %}
-    <h1>Редактирование курса</h1>
+    <h1>Создание пользователя</h1>
     <form method="post">
         {% csrf_token %}
         <div class="form-wrapper">
             {% bootstrap_form form %}
         </div>
         <div>
-            <a class="btn btn-primary" href="{% url 'courses:detail' course.pk %}">Назад</a>
             <button class="btn btn-primary" type="submit">Сохранить</button>
         </div>
     </form>
 {% endblock %}
 {% block js %}
     {{ form.media.js }}
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/ru.js"></script>
-    <script>
-        flatpickr.localize(flatpickr.l10ns.ru)
-    </script>
 {% endblock %}
