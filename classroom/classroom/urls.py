@@ -19,8 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
+from core.views import IndexView
+
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="base.html"), name="index"),
+    path('', IndexView.as_view(), name="index"),
+    path("core/", include("core.urls")),
     path('admin/', admin.site.urls),
     path("homeworks/", include("homeworks.urls")),
     path("courses/", include("courses.urls")),

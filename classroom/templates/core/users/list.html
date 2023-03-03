@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block title %}Пользователи{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='users' %}
+{% endblock %}
+{% block content %}
+    <div class="cards-heading">
+        <h1>Пользователи</h1>
+        <a href="{% url "core:users_create" %}" class="btn add">
+            <span class="material-symbols-outlined">
+                add
+            </span>
+            <span>Создать пользователя</span>
+        </a>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Имя пользователя</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+            <tr>
+              <th scope="row">{{ user.id }}</th>
+              <td>{{ user.username }}</td>
+              <td><a href="{% url "core:users_update" user.pk %}">Редактировать</a></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% bootstrap_pagination page_obj %}
+{% endblock %}

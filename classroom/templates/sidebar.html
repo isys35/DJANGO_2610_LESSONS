@@ -4,17 +4,36 @@
         <img src="{% static "logo.svg" %}" alt="logo">
     </a>
     <ul class="menu">
+        {% if perms.core.view_users %}
+            <li class="menu__item">
+                <a class="menu__link {% if app_name == 'users' %}selected{% endif %}" href="{% url "core:users_list" %}">
+                    <span class="material-symbols-outlined">person</span>
+                    <span>Пользователи</span>
+                </a>
+            </li>
+        {% endif %}
+        {% if perms.core.view_groups %}
         <li class="menu__item">
-            <a class="menu__link {% if app_name == 'courses' %}selected{% endif %}" href="{% url "courses:list" %}">
-                <span class="material-symbols-outlined">library_books</span>
-                <span>Курсы</span>
+            <a class="menu__link {% if app_name == 'groups' %}selected{% endif %}" href="{% url "core:group_list" %}">
+                <span class="material-symbols-outlined">groups</span>
+                <span>Группы</span>
             </a>
         </li>
+        {% endif %}
+        {% if perms.courses %}
+            <li class="menu__item">
+                <a class="menu__link {% if app_name == 'courses' %}selected{% endif %}" href="{% url "courses:list" %}">
+                    <span class="material-symbols-outlined">library_books</span>
+                    <span>Курсы</span>
+                </a>
+            </li>
+        {% endif %}
         <li class="menu__item">
             <a class="menu__link {% if app_name == 'homeworks' %}selected{% endif %}" href="{% url "homeworks:list" %}">
                 <span class="material-symbols-outlined">edit_square</span>
                 <span>Задания</span>
             </a>
         </li>
+        <a href="{% url "core:logout" %}">Выход</a>
     </ul>
 </div>

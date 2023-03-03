@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block css %}{{ form.media.css }}{% endblock %}
+{% block title %}Создание группы{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='groups' %}
+{% endblock %}
+{% block content %}
+    <h1>Создание группы</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-wrapper">
+            {% bootstrap_form form %}
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+{% endblock %}
