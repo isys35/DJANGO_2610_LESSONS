@@ -1,13 +1,45 @@
 .sidebar {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     left: 0;
     top: 0;
     bottom: 0;
     width: 280px;
     background-color: #ffff;
     border-right: 1px solid #dfe7ef;
-    min-height: 100vh;
+    height: 100%;
     z-index: 2;
+}
+
+.sidebar__profile-block {
+    margin-top: auto;
+    width: 100%;
+}
+
+.sidebar__profile-block hr {
+    border-top: 1px solid #dfe7ef;
+    margin: 8px 16px 16px 16px;
+}
+
+.sidebar__profile {
+    display: flex;
+    margin: 1rem;
+    padding: 1rem;
+    font-weight: 500;
+    color: #616161;
+    text-decoration: none;
+    border-radius: 6px;
+}
+.sidebar__profile:hover {
+    background-color: #F5F5F5;
+    color: #616161;
+}
+
+.sidebar__profile img {
+    width: 28px;
+    height: 28px;
+    margin-right: .5rem;
 }
 
 .logo {
