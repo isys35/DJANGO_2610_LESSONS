@@ -1,0 +1,45 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    background-color: #ffff;
+    border-right: 1px solid #dfe7ef;
+    min-height: 100vh;
+    z-index: 2;
+}
+
+.logo {
+    display: flex;
+    height: 60px;
+    padding: 0 32px;
+    align-items: center;
+}
+
+.logo img {
+    height: 30px;
+}
+
+.menu {
+    padding: 16px;
+    list-style-type: none;
+}
+
+.menu__link {
+    display: flex;
+    padding: 16px;
+    text-decoration: none;
+    color: #616161;
+    border-radius: 6px;
+    align-items: center;
+}
+
+.menu__link:hover {
+    color: #616161;
+    background-color: #F5F5F5;
+}
+
+.menu__link span:first-child {
+    margin-right: 10px;
+}

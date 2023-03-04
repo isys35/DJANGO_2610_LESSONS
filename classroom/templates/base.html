@@ -13,6 +13,12 @@
     {% block sidebar %}
         {% include "sidebar.html" %}
     {% endblock %}
+     <div class="navbar">
+         <div></div>
+         <ul class="navbar__menu">
+             <li><a href="#" class="navbar__profile"><img src="{% static "avatar.png" %}" alt="avatar"></a></li>
+         </ul>
+     </div>
     <div class="content">
         <div class="content__wrapper">
             {% block content %}
@@ -29,7 +35,6 @@
                     <div class="toast-body">
                       {{ message }}
                     </div>
-                      {# TODO: Починить закрытие #}
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                   </div>
                 </div>
