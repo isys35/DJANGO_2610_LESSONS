@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, TemplateView, UpdateView
 from core.consts import PAGE_SIZE
 from core.forms import GroupCreationForm, UserCreationForm, UserUpdateForm
+from user_role.forms import RoleCreationForm
+from user_role.models import User
 
 
 class IndexView(LoginRequiredMixin, TemplateView):
@@ -44,9 +46,9 @@ class GroupListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     paginate_by = PAGE_SIZE
 
 
-class GroupCreateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class RoleCreateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = "core.add_groups"
-    form_class = GroupCreationForm
+    form_class = RoleCreationForm
     template_name = "core/groups/create.html"
     success_url = reverse_lazy("core:group_list")
     success_message = "Группа успешно создана"

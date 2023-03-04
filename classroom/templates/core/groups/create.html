@@ -10,7 +10,9 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-wrapper">
-            {% bootstrap_form form %}
+            {% bootstrap_field form.name %}
+            {% bootstrap_label form.permissions.label %}
+            {{ form.permissions }}
         </div>
         <div>
             <button class="btn btn-primary" type="submit">Сохранить</button>

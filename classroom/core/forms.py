@@ -1,6 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import Group, Permission
+
+from user_role.forms import UserCreationForm as AuthUserCreationForm
+from user_role.models import User
 
 
 class GroupCreationForm(forms.ModelForm):
@@ -10,6 +12,7 @@ class GroupCreationForm(forms.ModelForm):
             content_type__model__in=["course", "group", "user"],
         )
     )
+
     class Meta:
         model = Group
         fields = [
@@ -19,18 +22,11 @@ class GroupCreationForm(forms.ModelForm):
 
 
 class UserCreationForm(AuthUserCreationForm):
-    groups = forms.ModelChoiceField(
-        label="Группа",
-        queryset=Group.objects.all(),
-        required=False,
-        widget=forms.Select()
-    )
-
     class Meta:
         model = User
         fields = [
-            "username",
-            "groups"
+            "email",
+            "role"
         ]
 
 
@@ -41,7 +37,7 @@ class UserUpdateForm(forms.ModelForm):
         required=False,
         widget=forms.Select()
     )
-    
+
     def _save_m2m(self):
         if groups := self.cleaned_data.get("groups"):
             self.cleaned_data["groups"] = [groups]
@@ -52,6 +48,6 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            "username",
+            "email",
             "groups"
         ]

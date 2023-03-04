@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "directory",
     "courses",
     "bootstrap5",
-    "django_flatpickr"
+    "django_flatpickr",
+    "user_role"
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = reverse_lazy("core:login")
 LOGIN_REDIRECT_URL = reverse_lazy("index")
 LOGOUT_REDIRECT_URL = reverse_lazy("index")
+
+AUTH_USER_MODEL = 'user_role.User'
+
+AUTHENTICATION_BACKENDS = [
+    'user_role.backends.ModelBackend'
+]
