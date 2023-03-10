@@ -1,7 +1,15 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from core.managers import UserManager
 
-class Student(models.Model):
-    is_activated = models.BooleanField(default=True)
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+
+class User(AbstractUser):
+    username = None
+    email = models.EmailField("Email", unique=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+

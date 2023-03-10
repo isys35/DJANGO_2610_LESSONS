@@ -37,9 +37,9 @@
     </ul>
     <div class="sidebar__profile-block">
         <hr>
-        <a href="#" class="sidebar__profile">
+        <a href="{% url "core:profile" %}" class="sidebar__profile">
             <img src="{% static "avatar.png" %}" alt="profile">
-            <span>Дмитрий Дроздов</span>
+            <span>{{ request.user.first_name }} {{ request.user.last_name }}</span>
         </a>
     </div>
 </div>

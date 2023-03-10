@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
-from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.models import Group, Permission
+
+from core.models import User
 
 
 class GroupCreationForm(forms.ModelForm):
@@ -19,6 +21,16 @@ class GroupCreationForm(forms.ModelForm):
 
 
 class UserCreationForm(AuthUserCreationForm):
+    password1 = forms.CharField(
+        label="Пароль",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+    )
+    password2 = forms.CharField(
+        label="Подтвержение пароля",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
+        strip=False
+    )
     groups = forms.ModelChoiceField(
         label="Группа",
         queryset=Group.objects.all(),
@@ -29,9 +41,15 @@ class UserCreationForm(AuthUserCreationForm):
     class Meta:
         model = User
         fields = [
-            "username",
-            "groups"
+            "email",
+            "groups",
+            "first_name",
+            "last_name"
         ]
+        required = (
+            "first_name",
+            "last_name"
+        )
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -52,6 +70,6 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            "username",
+            "email",
             "groups"
         ]

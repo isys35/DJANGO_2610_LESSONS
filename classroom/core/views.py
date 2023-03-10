@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, TemplateView, UpdateView
 from core.consts import PAGE_SIZE
 from core.forms import GroupCreationForm, UserCreationForm, UserUpdateForm
+from core.models import User
 
 
 class IndexView(LoginRequiredMixin, TemplateView):

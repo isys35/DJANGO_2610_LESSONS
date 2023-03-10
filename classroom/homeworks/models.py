@@ -32,7 +32,6 @@ class Homework(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
     deadline = models.DateTimeField(null=True, blank=True, verbose_name="Дэдлайн")
-    students = models.ManyToManyField(core_models.Student, related_name="homeworks")
     is_draft = models.BooleanField(default=False, verbose_name="Это черновик")
 
     def __str__(self):
@@ -45,19 +44,6 @@ class Homework(models.Model):
         return f"Наименование задания: {self.name}"
 
     full_info.short_description = "Полное наименование"
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not self.students.exists():
-            self.is_draft = True
-            super().save(force_update=True)
-
-    def delete(self, *args, **kwargs):
-        DeletedHomeworks.objects.create(
-            name=self.name,
-            description=self.description
-        )
-        super().delete(*args, **kwargs)
 
     class Meta:
         verbose_name = "Домашнее задание"

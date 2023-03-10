@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.generic import TemplateView
+
 from core import views
 from django.contrib.auth import views as auth_views
 
@@ -12,5 +14,5 @@ urlpatterns = [
     path("users/create/", views.UserCreateView.as_view(), name="users_create"),
     path("users/groups/", views.GroupListView.as_view(), name="group_list"),
     path("users/groups/create/", views.GroupCreateView.as_view(), name="group_create"),
-
+    path("users/profile/", TemplateView.as_view(template_name="core/users/profile.html"), name="profile")
 ]

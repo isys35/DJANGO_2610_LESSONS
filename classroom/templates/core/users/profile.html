@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block title %}Профиль{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='users' %}
+{% endblock %}
+{% block content %}
+    <h1>Профиль пользователя</h1>
+    <p>Email: {{ request.user.email }}</p>
+    <a href="{% url "core:logout" %}">Выход</a>
+{% endblock %}
