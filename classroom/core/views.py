@@ -3,8 +3,11 @@ from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, TemplateView, UpdateView
+from user_role.forms import RoleCreationForm
+from user_role.models import Role
+
 from core.consts import PAGE_SIZE
-from core.forms import GroupCreationForm, UserCreationForm, UserUpdateForm
+from core.forms import UserCreationForm, UserUpdateForm
 from core.models import User
 
 
@@ -37,17 +40,17 @@ class UserUpdateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessage
     success_message = "Пользователь успешно обновлен"
 
 
-class GroupListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
-    permission_required = "core.view_groups"
-    context_object_name = "groups"
-    template_name = "core/groups/list.html"
-    model = Group
+class RoleListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    permission_required = "user_role.view_role"
+    context_object_name = "roles"
+    template_name = "core/roles/list.html"
+    model = Role
     paginate_by = PAGE_SIZE
 
 
-class GroupCreateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    permission_required = "core.add_groups"
-    form_class = GroupCreationForm
-    template_name = "core/groups/create.html"
-    success_url = reverse_lazy("core:group_list")
-    success_message = "Группа успешно создана"
+class RoleCreateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    permission_required = "user_role.add_role"
+    form_class = RoleCreationForm
+    template_name = "core/roles/create.html"
+    success_url = reverse_lazy("core:role_list")
+    success_message = "Роль успешно создана"

@@ -1,15 +1,12 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-from core.managers import UserManager
+from user_role.models import AbstractUser
 
 
 class User(AbstractUser):
-    username = None
-    email = models.EmailField("Email", unique=True)
+    ...
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
 
-    objects = UserManager()
-
+class UserInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Пользователь", related_name="info")
+    country = models.CharField(max_length=100, verbose_name="Страна", blank=True)
+    post_code = models.CharField(max_length=100, verbose_name="Почтовый индекс", blank=True)

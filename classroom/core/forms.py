@@ -1,19 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
 from django.contrib.auth.models import Group, Permission
+from user_role.models import Role
 
 from core.models import User
 
 
-class GroupCreationForm(forms.ModelForm):
+class RoleCreationForm(forms.ModelForm):
     permissions = forms.ModelMultipleChoiceField(
         widget=forms.CheckboxSelectMultiple(),
         queryset=Permission.objects.filter(
             content_type__model__in=["course", "group", "user"],
         )
     )
+
     class Meta:
-        model = Group
+        model = Role
         fields = [
             "name",
             "permissions"
@@ -59,7 +61,7 @@ class UserUpdateForm(forms.ModelForm):
         required=False,
         widget=forms.Select()
     )
-    
+
     def _save_m2m(self):
         if groups := self.cleaned_data.get("groups"):
             self.cleaned_data["groups"] = [groups]

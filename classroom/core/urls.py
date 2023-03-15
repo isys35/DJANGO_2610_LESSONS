@@ -12,7 +12,7 @@ urlpatterns = [
     path("users/list/", views.UserListView.as_view(), name="users_list"),
     path("users/<int:pk>/update/", views.UserUpdateView.as_view(), name="users_update"),
     path("users/create/", views.UserCreateView.as_view(), name="users_create"),
-    path("users/groups/", views.GroupListView.as_view(), name="group_list"),
-    path("users/groups/create/", views.GroupCreateView.as_view(), name="group_create"),
+    path("users/roles/", views.RoleListView.as_view(), name="role_list"),
+    path("users/roles/create/", views.RoleCreateView.as_view(), name="role_create"),
     path("users/profile/", TemplateView.as_view(template_name="core/users/profile.html"), name="profile")
 ]

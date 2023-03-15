@@ -1,32 +1,32 @@
 {% extends "base.html" %}
 {% load bootstrap5 %}
-{% block title %}Группы{% endblock %}
+{% block title %}Роли{% endblock %}
 {% block sidebar %}
-    {% include 'sidebar.html' with app_name='groups' %}
+    {% include 'sidebar.html' with app_name='role' %}
 {% endblock %}
 {% block content %}
     <div class="cards-heading">
-        <h1>Группы</h1>
-        <a href="{% url "core:group_create" %}" class="btn add">
+        <h1>Роли</h1>
+        <a href="{% url "core:role_create" %}" class="btn add">
             <span class="material-symbols-outlined">
                 add
             </span>
-            <span>Создать группу</span>
+            <span>Создать роль</span>
         </a>
     </div>
-    {% if groups %}
+    {% if roles %}
         <table class="table">
           <thead>
             <tr>
               <th scope="col">id</th>
-              <th scope="col">Имя группы</th>
+              <th scope="col">Роль</th>
             </tr>
           </thead>
           <tbody>
-            {% for group in groups %}
+            {% for role in roles %}
                 <tr>
-                  <th scope="row">{{ group.id }}</th>
-                  <td>{{ group.name }}</td>
+                  <th scope="row">{{ role.id }}</th>
+                  <td>{{ role.name }}</td>
                 </tr>
             {% endfor %}
           </tbody>

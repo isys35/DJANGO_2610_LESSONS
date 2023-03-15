@@ -14,7 +14,7 @@
             <span>Добавить</span>
         </a>
     </div>
-
+    <div>Количество курсов: {{ paginator.count }}</div>
     <div class="row row-cols-1 row-cols-md-3 g-4 courses">
     {% for course in courses %}
       <div class="col">

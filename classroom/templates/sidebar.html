@@ -12,11 +12,11 @@
                 </a>
             </li>
         {% endif %}
-        {% if perms.core.view_groups %}
+        {% if perms.user_role.view_role %}
         <li class="menu__item">
-            <a class="menu__link {% if app_name == 'groups' %}selected{% endif %}" href="{% url "core:group_list" %}">
+            <a class="menu__link {% if app_name == 'role' %}selected{% endif %}" href="{% url "core:role_list" %}">
                 <span class="material-symbols-outlined">groups</span>
-                <span>Группы</span>
+                <span>Роли</span>
             </a>
         </li>
         {% endif %}

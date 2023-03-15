@@ -21,7 +21,7 @@
           <th scope="col">Email</th>
           <th scope="col">Имя</th>
           <th scope="col">Фамилия</th>
-           <th scope="col">Группа</th>
+           <th scope="col">Роль</th>
           <th></th>
         </tr>
       </thead>
@@ -30,9 +30,9 @@
             <tr>
               <th scope="row">{{ user.id }}</th>
               <td>{{ user.email }}</td>
-              <td>{{ user.first_name }}</td>
-              <td>{{ user.last_name }}</td>
-              <td>{{ user.groups.first }}</td>
+              <td>{{ user.first_name|default:"---" }}</td>
+              <td>{{ user.last_name|default:"---" }}</td>
+              <td>{{ user.role|default:"---" }}</td>
               <td><a href="{% url "core:users_update" user.pk %}">Редактировать</a></td>
             </tr>
         {% endfor %}

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "directory",
     "courses",
     "bootstrap5",
-    "django_flatpickr"
+    "django_flatpickr",
+    "user_role"
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,10 @@ LOGOUT_REDIRECT_URL = reverse_lazy("index")
 
 
 AUTH_USER_MODEL = "core.User"
+
+PERMISSIONS_LABELS = {
+    "add": "Добавление",
+    "change": "Изменение",
+    "view": "Просмотр",
+    "delete": "Удаление",
+}
