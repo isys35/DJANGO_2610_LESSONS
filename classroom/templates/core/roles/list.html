@@ -20,6 +20,7 @@
             <tr>
               <th scope="col">id</th>
               <th scope="col">Роль</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -27,6 +28,7 @@
                 <tr>
                   <th scope="row">{{ role.id }}</th>
                   <td>{{ role.name }}</td>
+                  <td>{% if perms.user_role.change_role %}<a href="{% url "core:role_update" role.pk %}">Редактировать</a>{% endif %}</td>
                 </tr>
             {% endfor %}
           </tbody>

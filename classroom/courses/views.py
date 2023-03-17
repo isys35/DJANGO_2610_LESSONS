@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator
+from django.forms import modelformset_factory
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -10,17 +11,22 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from courses import forms
 from courses import models
 from courses import consts as courses_consts
+from courses.mixins import FormRequestKwargMixin
 
 
 class CoursesListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     permission_required = "courses.view_course"
     context_object_name = "courses"
     template_name = "courses/list.html"
-    model = models.Course
+    queryset = models.Course.objects.select_related("author").prefetch_related("users")
     paginate_by = courses_consts.PAGE_SIZE
 
 
-class CreateCourseView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class CreateCourseView(FormRequestKwargMixin,
+                       PermissionRequiredMixin,
+                       LoginRequiredMixin,
+                       SuccessMessageMixin,
+                       CreateView):
     permission_required = "courses.add_course"
     form_class = forms.CourseForm
     template_name = "courses/create.html"
@@ -35,7 +41,11 @@ class DetailCourseView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     context_object_name = "course"
 
 
-class UpdateCourseView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateCourseView(FormRequestKwargMixin,
+                       PermissionRequiredMixin,
+                       LoginRequiredMixin,
+                       SuccessMessageMixin,
+                       UpdateView):
     permission_required = "courses.change_course"
     model = models.Course
     template_name = "courses/update.html"
@@ -53,3 +63,29 @@ class DeleteCourseView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessa
         if self.success_message:
             messages.success(self.request, self.success_message)
         return self.delete(*args, **kwargs)
+
+
+class RoadMapListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    permission_required = "courses.view_roadmap"
+    context_object_name = "roadmaps"
+    template_name = "courses/roadmaps/list.html"
+    queryset = models.RoadMap.objects.all()
+    paginate_by = courses_consts.PAGE_SIZE
+
+
+class CreateRoadMapView(PermissionRequiredMixin,
+                        LoginRequiredMixin,
+                        SuccessMessageMixin,
+                        CreateView):
+    permission_required = "courses.add_roadmap"
+    form_class = forms.RoadMapForm
+    template_name = "courses/roadmaps/create.html"
+    success_url = reverse_lazy("courses:roadmap_list")
+    success_message = "Запись успешно создана"
+    formset = modelformset_factory(models.RoadMapTopic, fields=('name', "hours"), extra=4)
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        context = self.get_context_data()
+        context["formset"] = self.formset()
+        return self.render_to_response(context)

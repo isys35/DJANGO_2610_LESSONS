@@ -27,6 +27,14 @@
                     <span>Курсы</span>
                 </a>
             </li>
+            {% if perms.courses.view_roadmap %}
+            <li class="menu__item">
+                <a class="menu__link {% if app_name == 'roadmap' %}selected{% endif %}" href="{% url "courses:roadmap_list" %}">
+                    <span class="material-symbols-outlined">library_books</span>
+                    <span>Программа обучения</span>
+                </a>
+            </li>
+            {% endif %}
         {% endif %}
         <li class="menu__item">
             <a class="menu__link {% if app_name == 'homeworks' %}selected{% endif %}" href="{% url "homeworks:list" %}">
@@ -38,7 +46,7 @@
     <div class="sidebar__profile-block">
         <hr>
         <a href="{% url "core:profile" %}" class="sidebar__profile">
-            <img src="{% static "avatar.png" %}" alt="profile">
+            <img src="{{ request.user.photo.url }}" alt="profile">
             <span>{{ request.user.first_name }} {{ request.user.last_name }}</span>
         </a>
     </div>

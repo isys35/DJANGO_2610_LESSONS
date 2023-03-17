@@ -16,7 +16,7 @@
      <div class="navbar">
          <div></div>
          <ul class="navbar__menu">
-             <li><a href="{% url "core:profile" %}" class="navbar__profile"><img src="{% static "avatar.png" %}" alt="avatar"></a></li>
+             <li><a href="{% url "core:profile" %}" class="navbar__profile"><img src="{{ request.user.photo.url }}" alt="avatar"></a></li>
          </ul>
      </div>
     <div class="content">

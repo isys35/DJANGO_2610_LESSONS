@@ -29,6 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 
 # Application definition
 
@@ -45,10 +49,12 @@ INSTALLED_APPS = [
     "courses",
     "bootstrap5",
     "django_flatpickr",
-    "user_role"
+    "user_role",
+    "debug_toolbar"
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -158,3 +164,8 @@ PERMISSIONS_LABELS = {
     "view": "Просмотр",
     "delete": "Удаление",
 }
+
+AUTHENTICATION_BACKENDS = ['user_role.backends.ModelBackend']
+
+
+MEDIA_ROOT = "media"

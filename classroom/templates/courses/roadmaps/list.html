@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block title %}Программы обучения{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='roadmap' %}
+{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Программы обучения</li>
+      </ol>
+    </nav>
+    <div class="cards-heading">
+        <h1>Программы обучения</h1>
+        {% if perms.courses.add_roadmap %}
+            <a href="{% url "courses:roadmap_create" %}" class="btn add">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+                <span>Добавить</span>
+            </a>
+        {% endif %}
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Название программы</th>
+          <th scope="col">Кол-во тем</th>
+          <th scope="col">Кол-во часов</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for roadmap in roadmaps %}
+            <tr>
+              <th scope="row">{{ user.id }}</th>
+              <td>{{ roadmap.name }}</td>
+              <td>{{ roadmap.count_topics }}</td>
+              <td>{{ roadmap.count_hours }}</td>
+              <td><a href="{% url "core:roadmap_update" roadmap.pk %}">Редактировать</a></td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if page_obj.has_other_pages %}
+        {% bootstrap_pagination page_obj %}
+    {% endif %}
+{% endblock %}

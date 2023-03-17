@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block css %}
+    {{ form.media.css }}
+{% endblock %}
+{% block title %}Редактирование Роли{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='role' %}
+{% endblock %}
+{% block content %}
+    <h1>Редактирование роли</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_field form.name %}
+        {{ form.permissions }}
+        <div>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+{% endblock %}
+{% block js %}
+    {{ form.media.js }}
+{% endblock %}

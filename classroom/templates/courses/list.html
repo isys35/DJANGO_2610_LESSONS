@@ -5,14 +5,22 @@
     {% include 'sidebar.html' with app_name='courses' %}
 {% endblock %}
 {% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Курсы</li>
+      </ol>
+    </nav>
     <div class="cards-heading">
         <h1>Курсы</h1>
-        <a href="{% url "courses:create" %}" class="btn add">
-            <span class="material-symbols-outlined">
-                add
-            </span>
-            <span>Добавить</span>
-        </a>
+        {% if perms.courses.add_course %}
+            <a href="{% url "courses:create" %}" class="btn add">
+                <span class="material-symbols-outlined">
+                    add
+                </span>
+                <span>Добавить</span>
+            </a>
+        {% endif %}
     </div>
     <div>Количество курсов: {{ paginator.count }}</div>
     <div class="row row-cols-1 row-cols-md-3 g-4 courses">
@@ -28,6 +36,8 @@
                 </div>
             </h5>
             <p class="card-text">{{ course.decription }}</p>
+            <p>{{ course.author.last_name }}</p>
+            <p>{{ course.users.count }}</p>
           </div>
           <div class="card-footer">
             <small class="text-muted">{{ course.started_at }}</small>
@@ -42,5 +52,7 @@
       </div>
     {% endfor %}
     </div>
-    {% bootstrap_pagination page_obj %}
+    {% if page_obj.has_other_pages %}
+        {% bootstrap_pagination page_obj %}
+    {% endif %}
 {% endblock %}

@@ -14,5 +14,6 @@ urlpatterns = [
     path("users/create/", views.UserCreateView.as_view(), name="users_create"),
     path("users/roles/", views.RoleListView.as_view(), name="role_list"),
     path("users/roles/create/", views.RoleCreateView.as_view(), name="role_create"),
-    path("users/profile/", TemplateView.as_view(template_name="core/users/profile.html"), name="profile")
+    path("users/roles/<int:pk>/update/", views.RoleUpdateView.as_view(), name="role_update"),
+    path("users/profile/", TemplateView.as_view(template_name="core/users/profile.html"), name="profile"),
 ]

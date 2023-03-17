@@ -1,8 +1,6 @@
 from django.db import models
 from django.urls import reverse_lazy
 
-from courses import validators
-
 
 class Course(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название курса")
@@ -30,3 +28,29 @@ class Course(models.Model):
         verbose_name = "Курс"
         verbose_name_plural = "Курсы"
         ordering = ["-started_at"]
+
+
+class RoadMap(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Название программы")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Программа обучения"
+        verbose_name_plural = "Программы обучения"
+        ordering = ["name"]
+
+
+class RoadMapTopic(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Название темы")
+    road_map = models.ForeignKey(RoadMap, on_delete=models.CASCADE, verbose_name="Программа обучения")
+    hours = models.PositiveIntegerField(verbose_name="Количество часов")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Тема"
+        verbose_name_plural = "Темы"
+        ordering = ["name"]

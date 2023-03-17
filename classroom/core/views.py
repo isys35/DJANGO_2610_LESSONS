@@ -3,11 +3,10 @@ from django.contrib.auth.models import Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, TemplateView, UpdateView
-from user_role.forms import RoleCreationForm
 from user_role.models import Role
 
 from core.consts import PAGE_SIZE
-from core.forms import UserCreationForm, UserUpdateForm
+from core.forms import UserCreationForm, UserUpdateForm, RoleCreationForm
 from core.models import User
 
 
@@ -54,3 +53,17 @@ class RoleCreateView(PermissionRequiredMixin, LoginRequiredMixin, SuccessMessage
     template_name = "core/roles/create.html"
     success_url = reverse_lazy("core:role_list")
     success_message = "Роль успешно создана"
+
+
+class RoleUpdateView(
+    PermissionRequiredMixin,
+    LoginRequiredMixin,
+    SuccessMessageMixin,
+    UpdateView
+):
+    permission_required = "user_role.change_role"
+    form_class = RoleCreationForm
+    model = Role
+    template_name = "core/roles/update.html"
+    success_url = reverse_lazy("core:role_list")
+    success_message = "Роль успешно обновлена"

@@ -1,17 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Permission
 from user_role.models import Role
 
 from core.models import User
+from core.widgets import PermissionsSelectMultiply
 
 
 class RoleCreationForm(forms.ModelForm):
     permissions = forms.ModelMultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple(),
-        queryset=Permission.objects.filter(
-            content_type__model__in=["course", "group", "user"],
-        )
+        widget=PermissionsSelectMultiply(),
+        queryset=Permission.objects.all()
     )
 
     class Meta:
@@ -33,9 +32,9 @@ class UserCreationForm(AuthUserCreationForm):
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         strip=False
     )
-    groups = forms.ModelChoiceField(
-        label="Группа",
-        queryset=Group.objects.all(),
+    role = forms.ModelChoiceField(
+        label="Роль",
+        queryset=Role.objects.all(),
         required=False,
         widget=forms.Select()
     )
@@ -44,9 +43,10 @@ class UserCreationForm(AuthUserCreationForm):
         model = User
         fields = [
             "email",
-            "groups",
+            "role",
             "first_name",
-            "last_name"
+            "last_name",
+            "photo"
         ]
         required = (
             "first_name",
@@ -55,23 +55,19 @@ class UserCreationForm(AuthUserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    groups = forms.ModelChoiceField(
-        label="Группа",
-        queryset=Group.objects.all(),
+    role = forms.ModelChoiceField(
+        label="Роль",
+        queryset=Role.objects.all(),
         required=False,
         widget=forms.Select()
     )
-
-    def _save_m2m(self):
-        if groups := self.cleaned_data.get("groups"):
-            self.cleaned_data["groups"] = [groups]
-        else:
-            self.cleaned_data["groups"] = []
-        return super()._save_m2m()
 
     class Meta:
         model = User
         fields = [
             "email",
-            "groups"
+            "role",
+            "first_name",
+            "last_name",
+            "photo"
         ]
