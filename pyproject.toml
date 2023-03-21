@@ -15,6 +15,7 @@ django-flatpickr = "^2.0.0"
 django-role = "^0.1.6"
 pillow = "^9.4.0"
 django-debug-toolbar = "^3.8.1"
+pre-commit = "^3.2.0"
 
 
 [build-system]
