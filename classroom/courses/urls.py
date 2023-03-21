@@ -12,4 +12,5 @@ urlpatterns = [
     path("roadmaps/", views.RoadMapListView.as_view(), name="roadmap_list"),
     path("roadmaps/create/", views.CreateRoadMapView.as_view(), name="roadmap_create"),
     path("roadmaps/<int:pk>/", views.DetailRoadMapView.as_view(), name="roadmap_detail"),
+    path("roadmaps/<int:pk>/update/", views.UpdateRoadMapView.as_view(), name="roadmap_update"),
 ]

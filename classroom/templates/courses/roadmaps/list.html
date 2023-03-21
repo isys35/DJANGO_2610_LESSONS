@@ -40,7 +40,7 @@
               <td class="text-center">{{ roadmap.count_topics }}</td>
               <td class="text-center">{{ roadmap.count_hours }}</td>
               <td>
-                  <a href="#"><span class="material-symbols-outlined">edit</span></a>
+                  <a href="{% url "courses:roadmap_update" roadmap.pk %}"><span class="material-symbols-outlined">edit</span></a>
                   <a href="{% url "courses:roadmap_detail" roadmap.pk %}"><span class="material-symbols-outlined">visibility</span></a>
               </td>
             </tr>

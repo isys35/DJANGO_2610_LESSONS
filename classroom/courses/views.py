@@ -10,7 +10,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from courses import forms
 from courses import models
 from courses import consts as courses_consts
-from courses.mixins import FormRequestKwargMixin
+from courses.mixins import FormRequestKwargMixin, CreateFormSetMixin
 
 
 class CoursesListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
@@ -74,53 +74,16 @@ class RoadMapListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
 
 class CreateRoadMapView(PermissionRequiredMixin,
                         LoginRequiredMixin,
-                        SuccessMessageMixin,
+                        CreateFormSetMixin,
                         CreateView):
     permission_required = "courses.add_roadmap"
     form_class = forms.RoadMapForm
+    model = models.RoadMap
     template_name = "courses/roadmaps/create.html"
     success_url = reverse_lazy("courses:roadmap_list")
     success_message = "Запись успешно создана"
-
-    def get_formset(self):
-        return forms.RoadMapFormset(**self.get_formset_kwargs())
-
-    def get_formset_kwargs(self):
-        kwargs = {}
-        if self.request.method in ("POST", "PUT"):
-            kwargs["data"] = self.request.POST
-        else:
-            kwargs["queryset"] = models.RoadMap.objects.none()
-        return kwargs
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        form = self.get_form()
-        formset = self.get_formset()
-        if form.is_valid() and formset.is_valid():
-            return self.data_valid(form, formset)
-        else:
-            return self.data_invalid(form, formset)
-
-    def get_context_data(self, **kwargs):
-        if "formset" not in kwargs:
-            kwargs["formset"] = self.get_formset()
-        return super().get_context_data(**kwargs)
-
-    def data_valid(self, form, formset):
-        self.object = form.save()
-        for form in formset:
-            topic = form.save(commit=False)
-            if form.cleaned_data:
-                topic.order = form.cleaned_data[ORDERING_FIELD_NAME]
-                topic.road_map = self.object
-                topic.save()
-        messages.success(self.request, self.success_message)
-        return HttpResponseRedirect(self.get_success_url())
-
-    def data_invalid(self, form, formset):
-        context_data = self.get_context_data(form=form, formset=formset)
-        return self.render_to_response(context_data)
+    formset = forms.RoadMapFormset
+    related_instance_fk = "road_map"
 
 
 class DetailRoadMapView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
@@ -128,3 +91,15 @@ class DetailRoadMapView(PermissionRequiredMixin, LoginRequiredMixin, DetailView)
     model = models.RoadMap
     template_name = "courses/roadmaps/detail.html"
     context_object_name = "roadmap"
+
+
+class UpdateRoadMapView(PermissionRequiredMixin, LoginRequiredMixin, UpdateFormSetMixin, UpdateView):
+    permission_required = "courses.change_roadmap"
+    model = models.RoadMap
+    template_name = "courses/roadmaps/update.html"
+    context_object_name = "roadmap"
+    form_class = forms.RoadMapForm
+    success_url = reverse_lazy("courses:roadmap_list")
+    success_message = "Запись успешно создана"
+    formset = forms.RoadMapFormset
+    related_instance_fk = "road_map"

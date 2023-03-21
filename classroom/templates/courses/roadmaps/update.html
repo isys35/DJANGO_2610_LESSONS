@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block title %}Изменение программы обучения{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='roadmap' %}
+{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="{% url "courses:roadmap_list" %}">Программы обучения</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Изменение программы обучения</li>
+      </ol>
+    </nav>
+    <h1>Изменение программы обучения</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-wrapper mb-3">
+            {% bootstrap_form form %}
+            <div class="formset">
+                {{ formset.management_form }}
+                {% for formset_item in formset %}
+                    <div class="formset__item">
+                    {% bootstrap_form formset_item %}
+                    </div>
+                {% endfor %}
+                <button id="incrementButton" class="btn btn-success w-100">Добавить тему</button>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+{% endblock %}
+{% block js %}
+    <script>
+        let incrementButton = document.getElementById("incrementButton");
+        let formsetItems = document.querySelectorAll(".formset__item");
+        let formset = document.querySelector(".formset");
+        let totalForms = document.getElementById("id_form-TOTAL_FORMS");
+
+        let formsetItemNum = formsetItems.length - 1;
+
+
+        function addFormset(event) {
+            event.preventDefault();
+            let newFormsetItem = formsetItems[formsetItems.length - 1].cloneNode(true);
+            let formsetItemRegex = RegExp(`form-(\\d)+-`,'g');
+            formsetItemNum += 1;
+            newFormsetItem.innerHTML = newFormsetItem.innerHTML.replace(formsetItemRegex, `form-${formsetItemNum}-`);
+            formset.insertBefore(newFormsetItem, incrementButton);
+            totalForms.setAttribute("value", `${formsetItemNum + 1}`)
+        }
+
+        incrementButton.addEventListener("click", addFormset);
+    </script>
+{% endblock %}
