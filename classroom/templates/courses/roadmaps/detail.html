@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Просмотр программы{% endblock %}
+{% block sidebar %}
+    {% include 'sidebar.html' with app_name='roadmap' %}
+{% endblock %}
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="{% url "courses:roadmap_list" %}">Программы обучения</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ roadmap.name }}</li>
+      </ol>
+    </nav>
+    <h1>{{ roadmap.name }}</h1>
+    <h3>Темы:</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Название темы</th>
+          <th scope="col" class="text-center">Кол-во тем</th>
+          <th scope="col" class="text-center">Кол-во часов</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for topic in roadmap.topics.all %}
+            <tr>
+              <th scope="row">{{ topic.id }}</th>
+              <td>{{ topic.name }}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

@@ -42,10 +42,18 @@ class RoadMap(models.Model):
         ordering = ["name"]
 
 
-class RoadMapTopic(models.Model):
+class Topic(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название темы")
-    road_map = models.ForeignKey(RoadMap, on_delete=models.CASCADE, verbose_name="Программа обучения")
+    road_map = models.ForeignKey(
+        RoadMap,
+        on_delete=models.CASCADE,
+        verbose_name="Программа обучения",
+        related_name="topics",
+        blank=True,
+        null=True
+    )
     hours = models.PositiveIntegerField(verbose_name="Количество часов")
+    order = models.SmallIntegerField(default=0, db_index=True, verbose_name="Порядок занятия")
 
     def __str__(self):
         return self.name
@@ -53,4 +61,4 @@ class RoadMapTopic(models.Model):
     class Meta:
         verbose_name = "Тема"
         verbose_name_plural = "Темы"
-        ordering = ["name"]
+        ordering = ["order", "name"]

@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import modelformset_factory, BaseModelFormSet
+from django.forms.formsets import ORDERING_FIELD_NAME
 from django_flatpickr.schemas import FlatpickrOptions
 from django_flatpickr.widgets import DatePickerInput
 
@@ -6,6 +8,21 @@ from core.models import User
 
 from courses import models
 from courses import validators
+
+
+class BaseRoadMapFormSet(BaseModelFormSet):
+
+    def add_fields(self, form, index):
+        super().add_fields(form, index)
+        form.fields[ORDERING_FIELD_NAME].label = "Порядок занятия"
+
+
+RoadMapFormset = modelformset_factory(
+    models.Topic,
+    formset=BaseRoadMapFormSet,
+    fields=('name', "hours"),
+    can_order=True,
+)
 
 
 class CourseForm(forms.ModelForm):

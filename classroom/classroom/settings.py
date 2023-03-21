@@ -14,9 +14,10 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
+from core.versioning import get_git_changeset_timestamp
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -138,7 +139,12 @@ DATE_FORMAT = "d.m.Y"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+with open(BASE_DIR / "classroom" / "last-update.txt", "r") as file:
+    timestamp = file.readline().strip()
+
+STATIC_URL = f'static/{timestamp}/'
+
+# SomeChanges
 
 STATICFILES_DIRS = [
     BASE_DIR / "static"
