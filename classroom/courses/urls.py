@@ -5,10 +5,13 @@ app_name = "courses"
 
 urlpatterns = [
     path("", views.CoursesListView.as_view(), name="list"),
-    path("create/", views.CreateCourseView.as_view(), name="create"),
-    path("<int:pk>/", views.DetailCourseView.as_view(), name="detail"),
-    path("<int:pk>/update/", views.UpdateCourseView.as_view(), name="update"),
-    path("<int:pk>/delete/", views.DeleteCourseView.as_view(), name="delete"),
+    path("create/", views.CourseCreateView.as_view(), name="create"),
+    path("<int:pk>/", views.CourseDetailView.as_view(), name="detail"),
+    path("<int:pk>/update/", views.CourseUpdateView.as_view(), name="update"),
+    path("<int:pk>/delete/", views.CourseDeleteView.as_view(), name="delete"),
     path("roadmaps/", views.RoadMapListView.as_view(), name="roadmap_list"),
-    path("roadmaps/create/", views.CreateRoadMapView.as_view(), name="roadmap_create"),
+    path("roadmaps/create/", views.RoadMapCreateView.as_view(), name="roadmap_create"),
+    path("roadmaps/<int:pk>/", views.RoadMapDetailView.as_view(), name="roadmap_detail"),
+    path("roadmaps/<int:pk>/update/", views.RoadMapUpdateView.as_view(), name="roadmap_update"),
+
 ]

@@ -35,11 +35,22 @@
       <tbody>
         {% for roadmap in roadmaps %}
             <tr>
-              <th scope="row">{{ user.id }}</th>
+              <th scope="row">{{ roadmap.id }}</th>
               <td>{{ roadmap.name }}</td>
               <td>{{ roadmap.count_topics }}</td>
               <td>{{ roadmap.count_hours }}</td>
-              <td><a href="{% url "core:roadmap_update" roadmap.pk %}">Редактировать</a></td>
+              <td>
+                  <a href="{% url "courses:roadmap_update" roadmap.pk %}">
+                      <span class="material-symbols-outlined">
+                          edit
+                      </span>
+                  </a>
+                  <a href="{% url "courses:roadmap_detail" roadmap.pk %}">
+                      <span class="material-symbols-outlined">
+                          visibility
+                      </span>
+                  </a>
+              </td>
             </tr>
         {% endfor %}
       </tbody>

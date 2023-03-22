@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load bootstrap5 %}
-{% block title %}Создание Программы обучения{% endblock %}
+{% block title %}Редактирование Программы обучения{% endblock %}
 {% block sidebar %}
     {% include 'sidebar.html' with app_name='roadmap' %}
 {% endblock %}
@@ -9,10 +9,10 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
         <li class="breadcrumb-item active" aria-current="page"><a href="{% url "courses:roadmap_list" %}">Программы обучения</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Создание программы обучения</li>
+        <li class="breadcrumb-item active" aria-current="page">Редактирование программы обучения</li>
       </ol>
     </nav>
-    <h1>Создание программы обучения</h1>
+    <h1>Редактирование программы обучения</h1>
     <form method="post">
         {% csrf_token %}
         <div class="form-wrapper">
@@ -45,7 +45,8 @@
 
         function addTopic(event) {
             event.preventDefault();
-            let newForm = formsetItems[0].cloneNode(true);
+            let formsetItems = document.querySelectorAll(".formset-item");
+            let newForm = formsetItems[numForm].cloneNode(true);
 
             let formRegex = RegExp(`form-(\\d)+-`,'g');
 
