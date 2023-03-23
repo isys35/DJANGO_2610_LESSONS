@@ -22,6 +22,7 @@ RoadMapFormset = modelformset_factory(
     formset=BaseRoadMapFormSet,
     fields=('name', "hours"),
     can_order=True,
+    can_delete=True
 )
 
 

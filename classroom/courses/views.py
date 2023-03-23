@@ -1,8 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Count, Sum
-from django.forms.formsets import ORDERING_FIELD_NAME
-from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -10,7 +8,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from courses import forms
 from courses import models
 from courses import consts as courses_consts
-from courses.mixins import FormRequestKwargMixin, CreateFormSetMixin
+from courses.mixins import FormRequestKwargMixin, CreateFormSetMixin, UpdateFormSetMixin
 
 
 class CoursesListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
@@ -93,7 +91,10 @@ class DetailRoadMapView(PermissionRequiredMixin, LoginRequiredMixin, DetailView)
     context_object_name = "roadmap"
 
 
-class UpdateRoadMapView(PermissionRequiredMixin, LoginRequiredMixin, UpdateFormSetMixin, UpdateView):
+class UpdateRoadMapView(PermissionRequiredMixin,
+                        LoginRequiredMixin,
+                        UpdateFormSetMixin,
+                        UpdateView):
     permission_required = "courses.change_roadmap"
     model = models.RoadMap
     template_name = "courses/roadmaps/update.html"

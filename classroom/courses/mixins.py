@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.forms.formsets import ORDERING_FIELD_NAME
+from django.forms.formsets import ORDERING_FIELD_NAME, DELETION_FIELD_NAME
 from django.http import HttpResponseRedirect
 
 
@@ -40,10 +40,13 @@ class FormSetMixin:
         self.object = form.save()
         for form in formset:
             related_instance = form.save(commit=False)
-            if form.cleaned_data:
-                related_instance.order = form.cleaned_data[ORDERING_FIELD_NAME]
-                setattr(related_instance, self.related_instance_fk, self.object)
-                related_instance.save()
+            if not form.cleaned_data:
+                continue
+            if form.cleaned_data[DELETION_FIELD_NAME]:
+                related_instance.delete()
+            related_instance.order = form.cleaned_data[ORDERING_FIELD_NAME]
+            setattr(related_instance, self.related_instance_fk, self.object)
+            related_instance.save()
         messages.success(self.request, self.success_message)
         return HttpResponseRedirect(self.get_success_url())
 
