@@ -138,7 +138,11 @@ DATE_FORMAT = "d.m.Y"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+with open(BASE_DIR / "core" / "last-update.txt", "r") as file:
+    timestamp = file.readline().strip()
+
+STATIC_URL = f'static/{timestamp}/'
+
 
 STATICFILES_DIRS = [
     BASE_DIR / "static"
