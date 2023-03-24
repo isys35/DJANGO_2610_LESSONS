@@ -3,7 +3,6 @@ from subprocess import check_output, CalledProcessError
 import os
 from datetime import datetime
 
-print("test")
 
 def root():
     ''' returns the absolute path of the repository root '''

@@ -39,6 +39,7 @@ class UserCreationForm(AuthUserCreationForm):
         widget=forms.Select()
     )
 
+
     class Meta:
         model = User
         fields = [
