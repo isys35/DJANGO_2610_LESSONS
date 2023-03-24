@@ -1,13 +1,22 @@
+from dataclasses import dataclass
+
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import modelformset_factory, BaseModelFormSet
 from django.forms.formsets import ORDERING_FIELD_NAME
 from django_flatpickr.schemas import FlatpickrOptions
-from django_flatpickr.widgets import DatePickerInput
+from django_flatpickr.widgets import DatePickerInput, TimePickerInput
 
 from core.models import User
 
 from courses import models
 from courses import validators
+from courses import consts
+
+
+@dataclass
+class InventoryItem:
+    name: str
 
 
 class CourseForm(forms.ModelForm):
@@ -19,21 +28,54 @@ class CourseForm(forms.ModelForm):
         ),
         validators=[validators.validate_starte_date]
     )
-    users = forms.ModelMultipleChoiceField(
+    students = forms.ModelMultipleChoiceField(
         label="Учащиеся",
         required=False,
         widget=forms.CheckboxSelectMultiple(),
         queryset=User.objects.all()
+    )
+    days_of_week = forms.MultipleChoiceField(
+        label="Дни проведения занятий",
+        required=True,
+        widget=forms.CheckboxSelectMultiple(),
+        choices=consts.DaysOfWeek.choices
+    )
+    start_lesson_at = forms.TimeField(
+        label="Время начала занятия",
+        required=True,
+        widget=TimePickerInput(
+            options=FlatpickrOptions(altFormat="H:i"),
+        )
+    )
+    end_lesson_at = forms.TimeField(
+        label="Время окончания занятия",
+        required=True,
+        widget=TimePickerInput(
+            range_from="start_lesson_at",
+            options=FlatpickrOptions(altFormat="H:i"),
+        )
     )
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
 
+    def clean(self):
+        cleaned_data = super().clean()
+        if str(cleaned_data["started_at"].weekday()) not in cleaned_data["days_of_week"]:
+            raise ValidationError("День недели должен совпадать с днем недели начала курса")
+        return cleaned_data
+
     def save(self, commit=True):
         instance = super().save(commit=False)
         instance.author = self.request.user
         instance.save()
+        topics_qs = instance.road_map.topics.all()
+        lesson_duration = self.cleaned_data["end_lesson_at"].hour - self.cleaned_data["start_lesson_at"].hour
+        for topic in topics_qs:
+            aviable_hours = lesson_duration
+            if aviable_hours > topic.hours:
+                model
         self._save_m2m()
         return instance
 
@@ -43,7 +85,8 @@ class CourseForm(forms.ModelForm):
             "name",
             "description",
             "started_at",
-            "users"
+            "students",
+            "road_map"
         )
 
 
