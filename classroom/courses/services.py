@@ -22,70 +22,65 @@ class CreateLessonsService:
             first_lesson_date: datetime.date,
             topics: list[Topic]
     ):
-        self._lesson_duration = end_lesson.hour - start_lesson.hour
-        self._first_lesson_date = first_lesson_date
-        self._topics = topics
+        self.lesson_duration = end_lesson.hour - start_lesson.hour
+        self.first_lesson_date = first_lesson_date
+        self.topics = topics
         self._lessons: list[Lesson] = []
+        self._avialable_hours = self.lesson_duration
+        self._lesson: Lesson | None = None
+        self._topic_names_for_lesson: list[Topic] = []
 
     def execute(self):
-        avialable_hours: int = self._lesson_duration
-        lesson = None
-        topic_names_for_lesson = []
+        return self.create_lessons()
 
-        for topic in self._topics:
-            if topic.hours <= avialable_hours:
-                if not lesson:
-                    lesson = Lesson()
-                topic_names_for_lesson.append(topic.name)
-                avialable_hours -= topic.hours
-                if avialable_hours == 0:
-                    avialable_hours = self._lesson_duration
-                    lesson.name = " ".join(topic_names_for_lesson)
-                    topic_names_for_lesson = []
-                    self._lessons.append(lesson)
-                    lesson = None
+    def _get_lesson(self):
+        if not self._lesson:
+            self._lesson = Lesson()
+        return self._lesson
+
+    def _append_lesson(self, lesson):
+        self._avialable_hours = self.lesson_duration
+        lesson.name = " ".join(self._topic_names_for_lesson)
+        self._topic_names_for_lesson = []
+        self._lessons.append(lesson)
+        self._lesson = None
+
+    def _action_small_topic(self, topic, fewer_hours):
+        lesson = self._get_lesson()
+        self._topic_names_for_lesson.append(topic.name)
+        self._avialable_hours -= fewer_hours
+        if self._avialable_hours == 0:
+            self._append_lesson(lesson)
+
+    def _action_big_topic(self, topic):
+        topic_hours = topic.hours
+        while topic_hours > self._avialable_hours:
+            topic_hours -= self._avialable_hours
+            lesson = self._get_lesson()
+            self._topic_names_for_lesson.append(topic.name)
+            self._append_lesson(lesson)
+        else:
+            self._action_small_topic(topic, topic_hours)
+
+    def create_lessons(self):
+        for topic in self.topics:
+            if topic.hours <= self._avialable_hours:
+                self._action_small_topic(topic, topic.hours)
             else:
-                topic_hours = topic.hours
-                while topic_hours > avialable_hours:
-                    topic_hours -= avialable_hours
-                    if not lesson:
-                        lesson = Lesson()
-                    topic_names_for_lesson.append(topic.name)
-                    avialable_hours = self._lesson_duration
-                    lesson.name = " ".join(topic_names_for_lesson)
-                    topic_names_for_lesson = []
-                    self._lessons.append(lesson)
-                    lesson = None
-                else:
-                    if not lesson:
-                        lesson = Lesson()
-                    topic_names_for_lesson.append(topic.name)
-                    avialable_hours -= topic_hours
-                    if avialable_hours == 0:
-                        avialable_hours = self._lesson_duration
-                        lesson.name = " ".join(topic_names_for_lesson)
-                        topic_names_for_lesson = []
-                        self._lessons.append(lesson)
-                        lesson = None
-        if lesson:
-            lesson.name = " ".join(topic_names_for_lesson)
-            self._lessons.append(lesson)
+                self._action_big_topic(topic)
+        if self._lesson:
+            self._append_lesson(self._lesson)
         return self._lessons
-
-
-class LessonCreator:
-    def __init__(self, create_lesson_service: CreateLessonsService):
-        pass
 
 
 if __name__ == "__main__":
     start_lesson = datetime.time(hour=17, minute=0)
     end_lesson = datetime.time(hour=20, minute=0)
     first_lesson_date = datetime.date(day=24, month=3, year=2023)
-    topics = [Topic(name="Введение", hours=4), Topic(name="Типы данных", hours=1), Topic(name="Строки", hours=1)]
-    CreateLessonsService(
+    topics = [Topic(name="Введение", hours=4), Topic(name="Типы данных", hours=7), Topic(name="Строки", hours=1)]
+    print(CreateLessonsService(
         start_lesson,
         end_lesson,
         first_lesson_date,
         topics
-    ).execute()
+    ).execute())
