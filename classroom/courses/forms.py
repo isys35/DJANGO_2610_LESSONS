@@ -14,10 +14,6 @@ from courses import validators
 from courses import consts
 
 
-@dataclass
-class InventoryItem:
-    name: str
-
 
 class CourseForm(forms.ModelForm):
     started_at = forms.DateField(
