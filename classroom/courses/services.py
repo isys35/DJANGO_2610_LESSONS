@@ -4,6 +4,7 @@ import datetime
 
 @dataclass
 class Lesson:
+    started_at: datetime.datetime
     name: str = ""
 
 
@@ -20,22 +21,42 @@ class CreateLessonsService:
             start_lesson: datetime.time,
             end_lesson: datetime.time,
             first_lesson_date: datetime.date,
+            lesson_weekdays: list[int],
             topics: list[Topic]
     ):
+        self.start_lesson = start_lesson
+        self.end_lesson = end_lesson
         self.lesson_duration = end_lesson.hour - start_lesson.hour
         self.first_lesson_date = first_lesson_date
+        self.lesson_weekdays = lesson_weekdays
         self.topics = topics
+
         self._lessons: list[Lesson] = []
         self._avialable_hours = self.lesson_duration
         self._lesson: Lesson | None = None
         self._topic_names_for_lesson: list[Topic] = []
+        self._lesson_started_at: datetime.datetime | None = None
 
     def execute(self):
         return self.create_lessons()
 
+    def _get_lesson_datetime(self):
+        if not self._lesson_started_at:
+            self._lesson_started_at = datetime.datetime(
+                day=self.first_lesson_date.day,
+                month=self.first_lesson_date.month,
+                year=self.first_lesson_date.year,
+                hour=self.start_lesson.hour
+            )
+            return self._lesson_started_at
+        while True:
+            self._lesson_started_at += datetime.timedelta(days=1)
+            if self._lesson_started_at.weekday() in self.lesson_weekdays:
+                return self._lesson_started_at
+
     def _get_lesson(self):
         if not self._lesson:
-            self._lesson = Lesson()
+            self._lesson = Lesson(started_at=self._get_lesson_datetime())
         return self._lesson
 
     def _append_lesson(self, lesson):
@@ -76,11 +97,13 @@ class CreateLessonsService:
 if __name__ == "__main__":
     start_lesson = datetime.time(hour=17, minute=0)
     end_lesson = datetime.time(hour=20, minute=0)
+    lesson_weekdays = [2, 4]
     first_lesson_date = datetime.date(day=24, month=3, year=2023)
     topics = [Topic(name="Введение", hours=4), Topic(name="Типы данных", hours=7), Topic(name="Строки", hours=1)]
     print(CreateLessonsService(
         start_lesson,
         end_lesson,
         first_lesson_date,
+        lesson_weekdays,
         topics
     ).execute())
