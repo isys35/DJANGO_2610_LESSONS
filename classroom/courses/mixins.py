@@ -1,3 +1,4 @@
+from django.forms.formsets import ORDERING_FIELD_NAME
 from django.http import HttpResponseRedirect
 
 
@@ -25,6 +26,7 @@ class RelatedFormSetMixin:
         return kwargs
 
     def form_valid(self, form, formset):
+        # TODO: Refactor
         self.object = form.save()
         for formset_item in formset:
             if not formset_item.cleaned_data:

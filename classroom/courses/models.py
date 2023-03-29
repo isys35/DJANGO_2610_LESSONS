@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse_lazy
 
@@ -27,6 +29,7 @@ class Course(models.Model):
         blank=True,
         null=True
     )
+    comments = GenericRelation("Comment")
 
     def get_absolute_url(self):
         return reverse_lazy("courses:detail", kwargs={"pk": self.pk})
@@ -46,11 +49,13 @@ class CourseLesson(models.Model):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
+        related_name="lessons",
         verbose_name="Курс"
     )
     name = models.TextField(verbose_name="Тема занятия")
     started_at = models.DateTimeField(verbose_name="Начало занятия")
     students = models.ManyToManyField("core.User", through="StudentLesson")
+    comments = GenericRelation("Comment")
 
     def __str__(self):
         return self.name
@@ -112,3 +117,20 @@ class Topic(models.Model):
         verbose_name = "Тема"
         verbose_name_plural = "Темы"
         ordering = ["order", "name"]
+
+
+class Comment(models.Model):
+    content = models.TextField(verbose_name="Комментарий")
+    author = models.ForeignKey("core.User", on_delete=models.CASCADE, verbose_name="Автор")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания комментария", blank=True, null=True)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name="Модель")
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey(ct_field="content_type", fk_field="object_id")
+
+    def __str__(self):
+        return f"{self.content} {self.object_id}"
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ["object_id"]

@@ -12,7 +12,7 @@ from core.models import User
 from courses import models
 from courses import validators
 from courses import consts
-
+from courses.services import CreateLessonsService
 
 
 class CourseForm(forms.ModelForm):
@@ -66,12 +66,26 @@ class CourseForm(forms.ModelForm):
         instance = super().save(commit=False)
         instance.author = self.request.user
         instance.save()
-        topics_qs = instance.road_map.topics.all()
-        lesson_duration = self.cleaned_data["end_lesson_at"].hour - self.cleaned_data["start_lesson_at"].hour
-        for topic in topics_qs:
-            aviable_hours = lesson_duration
-            if aviable_hours > topic.hours:
-                model
+        # lesson_duration = self.cleaned_data["end_lesson_at"].hour - self.cleaned_data["start_lesson_at"].hour
+        lessons = CreateLessonsService(
+            start_lesson=self.cleaned_data["start_lesson_at"],
+            end_lesson=self.cleaned_data["end_lesson_at"],
+            first_lesson_date=self.cleaned_data["started_at"],
+            # TODO: Проверить тип
+            lesson_weekdays=[int(day) for day in self.cleaned_data["days_of_week"]],
+            topics=instance.road_map.topics.all(),
+            course=instance
+        ).execute()
+        lessons = models.CourseLesson.objects.bulk_create(lessons)
+        students_lessons = []
+        for lesson in lessons:
+            for student in self.cleaned_data["students"]:
+                student_lesson = models.StudentLesson(
+                    lesson=lesson,
+                    student=student
+                )
+                students_lessons.append(student_lesson)
+        models.StudentLesson.objects.bulk_create(students_lessons)
         self._save_m2m()
         return instance
 

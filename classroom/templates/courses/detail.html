@@ -15,11 +15,35 @@
     <p>Название курса: {{ course.name }}</p>
     <p>Описание: {{ course.description }}</p>
     <p>Старт курса: {{ course.started_at }}</p>
-    <a class="btn btn-primary" href="{% url "courses:update" course.pk %}">Редактировать</a>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Удалить
-    </button>
+    <div class="button-group mb-4">
+        <a class="btn btn-primary" href="{% url "courses:update" course.pk %}">Редактировать</a>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Удалить
+        </button>
+    </div>
+
+
+    <div class="list-group mb-5">
+        {% for comment in course.comments.all %}
+          <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ comment.author.first_name }} {{ comment.author.last_name }}</h5>
+              <small>{{ comment.created_at }}</small>
+            </div>
+            <p class="mb-1">{{ comment.content }}</p>
+          </a>
+        {% endfor %}
+    </div>
+    <div class="comments">
+        <div class="form-floating mb-4">
+          <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Комментарий</label>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-primary" href="#">Добавить комментарий</a>
+        </div>
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
