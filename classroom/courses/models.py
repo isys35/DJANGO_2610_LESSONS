@@ -121,14 +121,16 @@ class Topic(models.Model):
 
 class Comment(models.Model):
     content = models.TextField(verbose_name="Комментарий")
-    author = models.ForeignKey("core.User", on_delete=models.CASCADE, verbose_name="Автор")
+    author = models.ForeignKey("core.User", on_delete=models.CASCADE, verbose_name="Автор", related_name="comments")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания комментария", blank=True, null=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, verbose_name="Модель")
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_id")
+    likes = models.ManyToManyField("core.User")
 
     def __str__(self):
         return f"{self.content} {self.object_id}"
+
 
     class Meta:
         verbose_name = "Комментарий"

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load bootstrap5 %}
+{% load bootstrap5 static %}
 {% block title %}Создание Программы обучения{% endblock %}
 {% block sidebar %}
     {% include 'sidebar.html' with app_name='roadmap' %}
@@ -34,28 +34,5 @@
     </form>
 {% endblock %}
 {% block js %}
-    <script>
-        let addTopicButton = document.getElementById("addTopicButton");
-        let formsetItems = document.querySelectorAll(".formset-item");
-        let totalForms = document.getElementById("id_form-TOTAL_FORMS");
-        let formsetContainer = document.querySelector(".formsets");
-
-        let numForm = formsetItems.length - 1;
-
-
-        function addTopic(event) {
-            event.preventDefault();
-            let newForm = formsetItems[0].cloneNode(true);
-
-            let formRegex = RegExp(`form-(\\d)+-`,'g');
-
-            numForm++;
-            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${numForm}-`);
-            formsetContainer.insertBefore(newForm, addTopicButton);
-            totalForms.setAttribute("value", `${numForm +1}`);
-        }
-
-        addTopicButton.addEventListener("click", addTopic);
-
-    </script>
+    <script src="{% static "js/formset.js" %}"></script>
 {% endblock %}

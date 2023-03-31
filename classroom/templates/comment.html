@@ -1,0 +1,13 @@
+<div class="list-group-item list-group-item-action comment" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{ comment.author.first_name }} {{ comment.author.last_name }}</h5>
+      <small>{{ comment.created_at }}</small>
+    </div>
+    <p class="mb-1">{{ comment.content }}</p>
+    <div class="like" data-like-url="{% url "courses:add_comment_like" comment.pk %}">
+        <button  class="add-like">
+            <span class="count-likes">{{ comment.count_likes }}</span>
+            <span class="material-symbols-outlined">favorite</span>
+        </button>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Просмотр курса{% endblock %}
 {% block sidebar %}
     {% include 'sidebar.html' with app_name='courses' %}
@@ -24,24 +25,18 @@
     </div>
 
 
-    <div class="list-group mb-5">
-        {% for comment in course.comments.all %}
-          <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ comment.author.first_name }} {{ comment.author.last_name }}</h5>
-              <small>{{ comment.created_at }}</small>
-            </div>
-            <p class="mb-1">{{ comment.content }}</p>
-          </a>
+    <div id="listComments" class="list-group list-comments mb-5">
+        {% for comment in comments %}
+          {% include "comment.html" %}
         {% endfor %}
     </div>
     <div class="comments">
         <div class="form-floating mb-4">
-          <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-          <label for="floatingTextarea2">Комментарий</label>
+          <textarea class="form-control" placeholder="Leave a comment here" id="commentInput" style="height: 100px" name="comment"></textarea>
+          <label for="commentInput">Комментарий</label>
         </div>
         <div class="d-flex justify-content-end">
-            <a class="btn btn-primary" href="#">Добавить комментарий</a>
+            <button id="addComment" class="btn btn-primary" type="submit">Добавить комментарий</button>
         </div>
     </div>
 
@@ -63,5 +58,10 @@
         </div>
       </div>
     </div>
-
+{% endblock %}
+{% block js %}
+    {% url "courses:add_comment" course.pk as add_comment_url %}
+    {{ add_comment_url|json_script:"add_comment_url" }}
+    <script src="{% static "js/comment.js" %}"></script>
+    <script src="{% static "js/likes.js" %}"></script>
 {% endblock %}

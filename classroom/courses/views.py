@@ -1,14 +1,12 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.core.paginator import Paginator
 from django.db.models import Count, Sum
-from django.forms import modelformset_factory
-from django.forms.formsets import ORDERING_FIELD_NAME
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib import messages
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from courses import forms
@@ -43,6 +41,12 @@ class CourseDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     model = models.Course
     template_name = "courses/detail.html"
     context_object_name = "course"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        context_data["comments"] = self.object.comments.all().annotate(count_likes=Count("likes")).select_related("author")
+        return context_data
+
 
 
 class CourseUpdateView(FormRequestKwargMixin,
@@ -116,7 +120,27 @@ class RoadMapUpdateView(PermissionRequiredMixin,
     related_instance_fk = "road_map"
 
 
-def add_comment(request):
+def add_comment(request, pk):
     if request.method == "POST":
-        pass
+        course = models.Course.objects.get(id=pk)
+        data_json = json.loads(request.body)
+        comment_text = data_json.get("comment")
+        comment = models.Comment.objects.create(
+            content=comment_text,
+            author=request.user,
+            content_object=course
+        )
+        comment.count_likes = comment.likes.count()
+        return render(request, "comment.html", {"comment": comment})
+    return HttpResponse(status=405)
+
+
+def add_comment_like(request, pk):
+    if request.method == "POST":
+        comment = models.Comment.objects.get(pk=pk)
+        if comment.likes.filter(id=request.user.id).exists():
+            comment.likes.remove(request.user)
+        else:
+            comment.likes.add(request.user)
+        return HttpResponse(comment.likes.count(), status=201)
     return HttpResponse(status=405)
