@@ -2,13 +2,13 @@
 {% load bootstrap5 %}
 {% block title %}Редактирование Программы обучения{% endblock %}
 {% block sidebar %}
-    {% include 'sidebar.html' with app_name='roadmap' %}
+    {% include 'sidebar.html' with app_name='roadmaps' %}
 {% endblock %}
 {% block content %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url "index" %}">Домашняя страница</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a href="{% url "courses:roadmap_list" %}">Программы обучения</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="{% url "roadmaps:list" %}">Программы обучения</a></li>
         <li class="breadcrumb-item active" aria-current="page">Редактирование программы обучения</li>
       </ol>
     </nav>

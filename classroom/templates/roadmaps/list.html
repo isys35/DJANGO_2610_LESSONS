@@ -2,7 +2,7 @@
 {% load bootstrap5 %}
 {% block title %}Программы обучения{% endblock %}
 {% block sidebar %}
-    {% include 'sidebar.html' with app_name='roadmap' %}
+    {% include 'sidebar.html' with app_name='roadmaps' %}
 {% endblock %}
 {% block content %}
     <nav aria-label="breadcrumb">
@@ -13,8 +13,8 @@
     </nav>
     <div class="cards-heading">
         <h1>Программы обучения</h1>
-        {% if perms.courses.add_roadmap %}
-            <a href="{% url "courses:roadmap_create" %}" class="btn add">
+        {% if perms.roadmaps.add_roadmap %}
+            <a href="{% url "roadmaps:create" %}" class="btn add">
                 <span class="material-symbols-outlined">
                     add
                 </span>
@@ -40,12 +40,12 @@
               <td>{{ roadmap.count_topics }}</td>
               <td>{{ roadmap.count_hours }}</td>
               <td>
-                  <a href="{% url "courses:roadmap_update" roadmap.pk %}">
+                  <a href="{% url "roadmaps:update" roadmap.pk %}">
                       <span class="material-symbols-outlined">
                           edit
                       </span>
                   </a>
-                  <a href="{% url "courses:roadmap_detail" roadmap.pk %}">
+                  <a href="{% url "roadmaps:detail" roadmap.pk %}">
                       <span class="material-symbols-outlined">
                           visibility
                       </span>

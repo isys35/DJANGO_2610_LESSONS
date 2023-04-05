@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("homeworks/", include("homeworks.urls")),
     path("courses/", include("courses.urls")),
+    path("roadmaps/", include("roadmaps.urls")),
     path('__debug__/', include('debug_toolbar.urls')),
 
 ]

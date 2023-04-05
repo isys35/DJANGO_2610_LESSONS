@@ -27,9 +27,9 @@
                     <span>Курсы</span>
                 </a>
             </li>
-            {% if perms.courses.view_roadmap %}
+            {% if perms.roadmaps.view_roadmap %}
             <li class="menu__item">
-                <a class="menu__link {% if app_name == 'roadmap' %}selected{% endif %}" href="{% url "courses:roadmap_list" %}">
+                <a class="menu__link {% if app_name == 'roadmaps' %}selected{% endif %}" href="{% url "roadmaps:list" %}">
                     <span class="material-symbols-outlined">library_books</span>
                     <span>Программа обучения</span>
                 </a>
