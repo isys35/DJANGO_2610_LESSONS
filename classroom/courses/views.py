@@ -20,7 +20,7 @@ class CoursesListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
     permission_required = "courses.view_course"
     context_object_name = "courses"
     template_name = "courses/list.html"
-    queryset = models.Course.objects.select_related("author").prefetch_related("students")
+    queryset = models.Course.active_objects.get_related()
     paginate_by = courses_consts.PAGE_SIZE
 
 

@@ -96,7 +96,8 @@ class CourseForm(forms.ModelForm):
             "description",
             "started_at",
             "students",
-            "road_map"
+            "road_map",
+            "publicated"
         )
 
 

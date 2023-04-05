@@ -131,3 +131,5 @@ dmypy.json
 
 /classroom/classroom/home_pc.py
 /classroom/media/
+
+**.DS_Store

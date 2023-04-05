@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse_lazy
 
+from courses import managers
 from courses import consts
 
 
@@ -29,7 +30,12 @@ class Course(models.Model):
         blank=True,
         null=True
     )
+    publicated = models.BooleanField(default=False, verbose_name="Опубликовано")
     comments = GenericRelation("Comment")
+
+    objects = models.Manager()
+    active_objects = managers.PublicatedManager()
+    with_count_objects = managers.QuerySetCountStudent.as_manager()
 
     def get_absolute_url(self):
         return reverse_lazy("courses:detail", kwargs={"pk": self.pk})
