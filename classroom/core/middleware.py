@@ -36,6 +36,9 @@ class SimpleClassMiddleware:
 
     #
     def process_template_response(self, request, response):
-
         print("Обработка шаблона")
         return response
+
+
+def app_name(request):
+    return {"app_name": request.resolver_match.app_name}

@@ -43,14 +43,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    "bootstrap5",
+    "django_flatpickr",
+    "user_role",
+    "debug_toolbar",
+
     "homeworks",
     "core",
     "directory",
     "courses",
-    "bootstrap5",
-    "django_flatpickr",
-    "user_role",
-    "debug_toolbar"
+    "roadmaps"
 ]
 
 MIDDLEWARE = [
@@ -81,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "core.middleware.app_name"
             ],
         },
     },

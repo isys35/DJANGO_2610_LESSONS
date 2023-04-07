@@ -1,4 +1,5 @@
 from courses import models
+from roadmaps import models as rm_models
 import datetime
 
 
@@ -10,7 +11,7 @@ class CreateLessonsService:
             end_lesson: datetime.time,
             first_lesson_date: datetime.date,
             lesson_weekdays: list[int],
-            topics: list[models.Topic], # Неверно
+            topics: list[rm_models.Topic],
             course: models.Course
     ):
         self.start_lesson = start_lesson

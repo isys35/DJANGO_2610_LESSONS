@@ -1,6 +1,8 @@
 from django.urls import path
 from roadmaps import views
 
+app_name = "roadmaps"
+
 urlpatterns = [
     path("", views.RoadMapListView.as_view(), name="list"),
     path("create/", views.RoadMapCreateView.as_view(), name="create"),
