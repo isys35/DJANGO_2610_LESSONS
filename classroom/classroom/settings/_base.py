@@ -111,7 +111,7 @@ DATABASES = {
         'USER': get_secret("DB_USER"),
         'PASSWORD': get_secret("DB_PASSWORD"),
         'HOST': get_secret("DB_HOST"),
-        'PORT': '5432',
+        'PORT': '5433',
         'ATOMIC_REQUESTS': True,
     }
 }
