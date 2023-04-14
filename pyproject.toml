@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Dzmitry"]
 readme = "README.md"
-packages = [{include = "django_2610_lessons"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -16,6 +15,7 @@ django-role = "^0.1.6"
 pillow = "^9.4.0"
 django-debug-toolbar = "^3.8.1"
 python-dotenv = "^1.0.0"
+gunicorn = "^20.1.0"
 
 
 [build-system]

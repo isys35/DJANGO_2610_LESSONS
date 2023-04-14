@@ -1,0 +1,41 @@
+version: '3'
+
+
+services:
+  classroom:
+    build: .
+    container_name: classroom
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=db
+    command: >
+        bash -c "cd classroom
+        && poetry run python manage.py makemigrations
+        && poetry run python manage.py migrate
+        && poetry run gunicorn --workers=3 classroom.wsgi:application --bind 0.0.0.0:8000"
+
+  server:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx_conf:/etc/nginx/conf.d
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+
+volumes:
+  db-data:
